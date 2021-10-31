@@ -5,6 +5,8 @@ services:
     image: paymentq
     build:
       context: ./Payment.Api
+      args:
+        - VITE_BASE_URL=https://pay-back.babajideadedeji.com
     restart: always
     container_name: coon
     ports:
@@ -18,5 +20,5 @@ services:
     container_name: coon-front
     ports:
       - 4000:80
-    environment:
-      - VITE_BASE_URL=https://pay-back.babajideadedeji.com
+    # environment:
+    #   - VITE_BASE_URL=https://pay-back.babajideadedeji.com
