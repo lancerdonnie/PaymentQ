@@ -72,7 +72,7 @@ namespace Payment.Api.Controllers
                 AccountNo = addPaymentResponse.AccountNo,
             };
 
-            return CreatedAtAction("", addPaymentResponseDto);
+            return CreatedAtAction(nameof(Pay), addPaymentResponseDto);
         }
 
         [HttpPost]
@@ -91,6 +91,7 @@ namespace Payment.Api.Controllers
             }
             BalanceResponseDto balanceResponseDto = new BalanceResponseDto { AccountNumber = balanceResponse.AccountNumber, Balance = balanceResponse.Balance };
             return Ok(new Response200 { Data = balanceResponseDto });
+
         }
     }
 }

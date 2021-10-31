@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading::after {
+  position: absolute;
+  top: calc(50% - (1.4em / 2));
+  left: calc(50% - (1.4em / 2));
+  display: block;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  width: 1.4em;
+  height: 1.4em;
+  animation: rotate 500ms infinite linear;
+  transform-origin: center;
+  content: '';
+}
