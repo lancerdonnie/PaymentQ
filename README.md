@@ -26,3 +26,4 @@ A github repository page clone
 #### Live Url
 
 Url: [Payment Middleware](https://pay.babajideadedeji.com)
+Swagger: [Swagger Docs](https://pay-back.babajideadedeji.com/swagger)

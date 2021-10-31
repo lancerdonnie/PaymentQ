@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Payment.Api.Attributes;
-using Payment.Api.Models;
 
 namespace Payment.Api.Dtos
 {
@@ -16,7 +15,6 @@ namespace Payment.Api.Dtos
         public Double Amount { get; set; }
         [Required]
         public string Narration { get; set; }
-        // public DateTime ValueDate = new DateTime();
     }
 
     public class AddPaymentRequestDto
@@ -30,13 +28,10 @@ namespace Payment.Api.Dtos
         public int EnableSingleDebit = 0;
         [Required]
         public DateTime Date = new DateTime();
-        // public int TotalTransactions = 1;
         [Required]
         public string SourceAccount { get; set; }
         [Required]
         public Double Amount { get; set; }
-        // public int PaymentMethodId = 1;
-        // public int PaymentTypeId = 1;
         [Required]
         public string Username = "";
         [Required]

@@ -1,60 +1,11 @@
-import { QueryFunctionContext, useMutation, useQuery } from 'react-query';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { Select, Input, Button, TextArea, Label, Toast } from 'Components';
 import { useEffect, useState } from 'react';
-import { Axios, formatCurrency } from 'Utils';
+import { formatCurrency } from 'Utils';
 import apiMutate from 'Utils/api';
 import { nanoid } from 'nanoid/non-secure';
-import { ToastContainer } from 'react-toastify';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      queryFn: async ({ queryKey }: QueryFunctionContext) => {
-        const { data } = await Axios.get(`/${queryKey[0]}`);
-        return data;
-      },
-      refetchOnWindowFocus: true
-    }
-  }
-});
-
-function CreateApp() {
-  return (
-    <div className="App p-10">
-      <ToastContainer />
-      <QueryClientProvider client={queryClient} contextSharing>
-        <App />
-      </QueryClientProvider>
-    </div>
-  );
-}
-
-type Account = {
-  accountNumber: string;
-  balance: number;
-};
-
-type User = {
-  name: string;
-  account: Account;
-  // bank: {item1: 101, item2: "Zenith"}
-  email: string;
-  // password: "ronaldo"
-  // phone: "080000001"
-};
-
-type Balance = {
-  accountNumber: 'string';
-  balance: number;
-};
-
-type Temp = {
-  id: string;
-  accountNumber: string;
-  amount: number | '';
-  narration: string;
-};
+import type { Temp, Account, Balance, User } from './types';
+import Transactions from 'Views/Transactions';
 
 const App = () => {
   const [account, setAccount] = useState('');
@@ -66,19 +17,15 @@ const App = () => {
     narration: ''
   });
 
-  const { data: users } = useQuery<{ data: User[] }>('users');
-
-  const user = users?.data.find((e) => e.account.accountNumber === account);
+  const { data: users } = useQuery<User[]>('users');
 
   useEffect(() => {
     if (account) getBalance(account);
   }, [account]);
 
-  const { mutate: getBalance, data: balance } = useMutation<
-    { data: Balance },
-    any,
-    any
-  >((accountNumber: string) => apiMutate('balance', { accountNumber }));
+  const { mutate: getBalance, data: balance } = useMutation<Balance, any, any>(
+    (accountNumber: string) => apiMutate('balance', { accountNumber })
+  );
 
   const { mutate: pay, isLoading: paying } = useMutation(
     (data: any) => apiMutate('pay', data),
@@ -131,7 +78,7 @@ const App = () => {
           className="max-w-lg"
         >
           <option value="">Select a user</option>
-          {users?.data.map((user) => (
+          {users?.map((user) => (
             <option key={user.email} value={user.account.accountNumber}>
               {user.name}
             </option>
@@ -142,7 +89,7 @@ const App = () => {
           <div className="bg-purple-100 text-purple-600 flex items-center">
             <span className="p-2 px-3">Balance</span>
             <span className="bg-purple-500 text-white p-2 px-3 rounded-sm">
-              {formatCurrency(balance?.data.balance)}
+              {formatCurrency(balance?.balance)}
             </span>
           </div>
         )}
@@ -160,8 +107,8 @@ const App = () => {
                 }
               >
                 <option value={''}>Select</option>
-                {users?.data
-                  .filter((e) => e.account.accountNumber !== account)
+                {users
+                  ?.filter((e) => e.account.accountNumber !== account)
                   .map((user) => (
                     <option key={user.email} value={user.account.accountNumber}>
                       {user.name}
@@ -216,75 +163,4 @@ const App = () => {
   );
 };
 
-export default CreateApp;
-
-export function Transactions({
-  transactions,
-  handleRemoveTransaction
-}: {
-  transactions: Temp[];
-  handleRemoveTransaction: (trans: Temp) => void;
-}) {
-  if (!transactions?.length) return null;
-  return (
-    <div className="flex flex-col">
-      <div className="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-        <div className="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-          <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead className="bg-gray-50">
-                <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Account
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Amount
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    Narration
-                  </th>
-                  <th scope="col" className="relative px-6 py-3">
-                    <span className="sr-only">Remove</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                {transactions.map((trans) => (
-                  <tr key={trans.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {trans.accountNumber}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {trans.amount}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {trans.narration}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <a
-                        href="#"
-                        className="text-indigo-600 hover:text-indigo-900"
-                        onClick={() => handleRemoveTransaction(trans)}
-                      >
-                        Remove
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+export default App;

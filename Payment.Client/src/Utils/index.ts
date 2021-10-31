@@ -12,7 +12,7 @@ Axios.interceptors.response.use(
     if (error.response?.status === 404) {
       Toast({
         type: 'error',
-        msg: error.response?.data?.title
+        msg: error.response?.data
       });
     } else if (error.response?.data?.errors) {
       try {

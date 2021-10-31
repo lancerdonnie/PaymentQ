@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Payment.Api.Dtos;
 using Payment.Api.Models;
 using Payment.Api.Services;
-using Payment.Api.Utilities;
 
 namespace Payment.Api.Controllers
 {
@@ -34,9 +33,6 @@ namespace Payment.Api.Controllers
                     Narration = item.Narration,
                     ValueDate = new DateTime(),
                     TransactionReference = Guid.NewGuid().ToString(),
-                    // Beneficiary = "TEST USER",
-                    // BeneficiaryEmail = "",
-                    // BeneficiaryPhone = "",
                 };
             }).ToList();
 
@@ -51,14 +47,12 @@ namespace Payment.Api.Controllers
                 SourceAccount = addPaymentRequestDto.SourceAccount,
                 Amount = addPaymentRequestDto.Amount,
                 BatchReference = Guid.NewGuid().ToString(),
-                // Username = "XXX",
-                // Password = "XXXX",
             };
 
             AddPaymentResponse addPaymentResponse = await _payment.AddPayment(addPaymentRequest);
             if (addPaymentResponse.StatusCode == 404)
             {
-                return NotFound(new Response404 { Title = addPaymentResponse.StatusDescription });
+                return NotFound(addPaymentResponse.StatusDescription);
             }
             else if (addPaymentResponse.StatusCode >= 400)
             {
@@ -82,7 +76,7 @@ namespace Payment.Api.Controllers
             BalanceResponse balanceResponse = await _payment.GetAccountBalance(balanceRequest);
             if (balanceResponse.StatusCode == 404)
             {
-                return NotFound(new Response404 { Title = balanceResponse.StatusDescription });
+                return NotFound(balanceResponse.StatusDescription);
             }
             else if (balanceResponse.StatusCode >= 400)
             {
@@ -90,7 +84,7 @@ namespace Payment.Api.Controllers
                 return ValidationProblem(ModelState);
             }
             BalanceResponseDto balanceResponseDto = new BalanceResponseDto { AccountNumber = balanceResponse.AccountNumber, Balance = balanceResponse.Balance };
-            return Ok(new Response200 { Data = balanceResponseDto });
+            return Ok(balanceResponseDto);
 
         }
     }

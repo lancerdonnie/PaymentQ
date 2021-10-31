@@ -1,6 +1,6 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Payment.Api.Repository;
-using Payment.Api.Utilities;
 
 namespace Payment.Api.Controllers
 {
@@ -9,17 +9,11 @@ namespace Payment.Api.Controllers
     public class DataController : ControllerBase
     {
 
-
         [HttpGet]
-        public ActionResult<string> Users()
+        public ActionResult<IEnumerable<User>> Users()
         {
-            return Ok(new Response200
-            {
-                Data = Repo.users
-            });
+            return Ok(Repo.users);
         }
-
-
     }
 
 }

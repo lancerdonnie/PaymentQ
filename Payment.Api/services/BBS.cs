@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Payment.Api.Dtos;
 using Payment.Api.Models;
 using Payment.Api.Repository;
 
@@ -71,6 +68,13 @@ namespace Payment.Api.Services
 
 
 
+            }
+
+            if (addPaymentRequest.paymentTransactionLocal.Any(e => e.AccountNumber == sourceAccount.AccountNumber))
+            {
+                addPaymentResponse.StatusCode = 400;
+                addPaymentResponse.StatusDescription = "Transfer to own account prohibited";
+                return Task.FromResult(addPaymentResponse);
             }
 
             if (sourceAccount.Balance < addPaymentRequest.paymentTransactionLocal.Aggregate(0.0, (acc, tran) => acc + tran.Amount))
