@@ -1,9 +1,0 @@
-version: '3.7'
-
-services:
-  proxy:
-    image: mcr.microsoft.com/dotnet/aspnet:5.0
-    container_name: coon
-    ports:
-      # - 11234:11234
-      # - 11234:11234/udp

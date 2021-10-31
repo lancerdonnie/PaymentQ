@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  backend:
+    image: paymentQ
+    build: .
+    context: ./Payment.Api
+    container_name: coon
+    ports:
+      - 5001:5001
