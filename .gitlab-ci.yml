@@ -1,10 +1,9 @@
 stages:        
   - build
-  - deploy
 
-build-job:       
+build:       
   stage: build
   script:
     - echo "Build started"
-    - docker-compose up -d
+    - docker-compose up -d --build
     - echo "completed."
