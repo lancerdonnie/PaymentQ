@@ -18,5 +18,5 @@ services:
     container_name: coon-front
     ports:
       - 4000:80
-  environment:
-    - VITE_BASE_URL=http://backend:80
+    environment:
+      - VITE_BASE_URL=http://backend:80
