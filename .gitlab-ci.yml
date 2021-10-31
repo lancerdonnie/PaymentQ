@@ -7,4 +7,4 @@ build-job:
   script:
     - echo "Build started"
     - docker-compose up -d
-    - echo "complete."
+    - echo "completed"
