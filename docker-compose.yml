@@ -9,14 +9,15 @@ services:
     container_name: coon
     ports:
       - 5001:80
+
   frontend:
     depends_on:
       - backend
     image: paymentq-front
     build:
       context: ./Payment.Client
+      args:
+        - VITE_BASE_URL=https://pay-back.babajideadedeji.com
     container_name: coon-front
     ports:
       - 4000:80
-    environment:
-      - VITE_BASE_URL=https://pay-back.babajideadedeji.com
