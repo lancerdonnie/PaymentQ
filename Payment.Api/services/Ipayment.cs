@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using Payment.Api.Models;
 
 namespace Payment.Api.Services
 {
     public interface IPayment
     {
-        BalanceResponse GetAccountBalance(BalanceRequest balanceDto);
-        void AddPayment(AddPaymentRequest addPaymentRequestDto);
+        Task<BalanceResponse> GetAccountBalance(BalanceRequest balanceDto);
+        Task<AddPaymentResponse> AddPayment(AddPaymentRequest addPaymentRequestDto);
     }
 }

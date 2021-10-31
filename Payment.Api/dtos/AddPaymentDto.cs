@@ -61,7 +61,6 @@ namespace Payment.Api.Dtos
     {
         public string BatchReference { get; set; }
         public string AccountNo { get; set; }
-        public List<PaymentTransactionsResponseDto> paymentTransactions { get; set; }
     }
 
 }
