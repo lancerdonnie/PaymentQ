@@ -26,7 +26,8 @@ Axios.interceptors.response.use(
         }
       } catch (error) {
         Toast({
-          msg: 'Could not get error message'
+          msg: 'Could not get error message',
+          type: 'error'
         });
       }
       return Promise.reject(error);

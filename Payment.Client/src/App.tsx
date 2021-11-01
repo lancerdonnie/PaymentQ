@@ -58,7 +58,8 @@ const App = () => {
   };
 
   const handleSubmit = () => {
-    if (!transactions.length) return Toast({ msg: 'Please add a transaction' });
+    if (!transactions.length)
+      return Toast({ msg: 'Please add a transaction', type: 'warning' });
     pay({
       paymentTransactions: transactions,
       sourceAccount: account
