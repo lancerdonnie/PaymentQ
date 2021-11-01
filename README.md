@@ -26,5 +26,5 @@ Swagger: [Swagger Docs](https://pay-back.babajideadedeji.com/swagger)
 
 - Start frontend: `cd Payment.Client && npm run dev`
 - Start backend: `cd Payment.Api && dotnet run`
-- Test backend: `cd Payment.Api && dotnet test`
+- Test backend: `cd Payment.UnitTesta && dotnet test`
 - FullStack: `docker-compose up -d`
