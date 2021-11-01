@@ -1,6 +1,6 @@
 # Payment Middleware
 
-A github repository page clone
+A Payment Middleware
 
 ### Technologies
 
