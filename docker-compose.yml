@@ -18,6 +18,7 @@ services:
       context: ./Payment.Client
       args:
         - VITE_BASE_URL=https://pay-back.babajideadedeji.com/api/v1
+    restart: always
     container_name: coon-front
     ports:
       - 4000:80
